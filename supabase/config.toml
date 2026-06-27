@@ -1,0 +1,11 @@
+# Configuración del CLI de Supabase (local dev / migraciones).
+# Doc: https://supabase.com/docs/guides/cli/config
+project_id = "studio-contenido-ia"
+
+[db]
+major_version = 15
+
+[auth]
+enable_signup = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback"]

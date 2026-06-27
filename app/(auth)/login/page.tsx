@@ -1,0 +1,122 @@
+"use client";
+
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+
+type Mode = "signin" | "signup";
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen" />}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
+  const router = useRouter();
+  const params = useSearchParams();
+  const redirectTo = params.get("redirectTo") || "/brands";
+
+  const [mode, setMode] = useState<Mode>("signin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setInfo(null);
+    const supabase = createClient();
+
+    if (mode === "signin") {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setError(error.message);
+        setLoading(false);
+        return;
+      }
+      router.replace(redirectTo);
+      router.refresh();
+    } else {
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error) {
+        setError(error.message);
+        setLoading(false);
+        return;
+      }
+      if (data.session) {
+        router.replace(redirectTo);
+        router.refresh();
+      } else {
+        setInfo("Revisa tu correo para confirmar la cuenta y luego inicia sesión.");
+        setMode("signin");
+        setLoading(false);
+      }
+    }
+  }
+
+  return (
+    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 px-6">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {mode === "signin" ? "Iniciar sesión" : "Crear cuenta"}
+        </h1>
+        <p className="mt-1 text-sm text-neutral-400">Studio de Contenido IA — panel interno.</p>
+      </div>
+
+      <form onSubmit={onSubmit} className="flex flex-col gap-3">
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="text-neutral-400">Correo</span>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 outline-none focus:border-neutral-500"
+            autoComplete="email"
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="text-neutral-400">Contraseña</span>
+          <input
+            type="password"
+            required
+            minLength={8}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 outline-none focus:border-neutral-500"
+            autoComplete={mode === "signin" ? "current-password" : "new-password"}
+          />
+        </label>
+
+        {error && <p className="text-sm text-red-400">{error}</p>}
+        {info && <p className="text-sm text-emerald-400">{info}</p>}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="mt-2 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-50"
+        >
+          {loading ? "..." : mode === "signin" ? "Entrar" : "Registrarme"}
+        </button>
+      </form>
+
+      <button
+        type="button"
+        onClick={() => {
+          setMode((m) => (m === "signin" ? "signup" : "signin"));
+          setError(null);
+          setInfo(null);
+        }}
+        className="text-sm text-neutral-400 underline-offset-4 hover:underline"
+      >
+        {mode === "signin" ? "¿No tienes cuenta? Crear una" : "¿Ya tienes cuenta? Inicia sesión"}
+      </button>
+    </main>
+  );
+}
