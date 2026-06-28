@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 /**
@@ -70,8 +71,14 @@ export function PlanActions({
 
   if (isApproved) {
     return (
-      <div className="rounded-lg border border-emerald-900 bg-emerald-950/30 px-4 py-3 text-sm text-emerald-300">
-        ✓ Tanda aprobada. La producción se encoló; el panel de cola llega en el siguiente milestone.
+      <div className="flex flex-col gap-3 rounded-lg border border-emerald-900 bg-emerald-950/30 px-4 py-3 text-sm text-emerald-300">
+        <span>✓ Tanda aprobada. La producción se encoló.</span>
+        <Link
+          href={`/batches/${batchId}/queue`}
+          className="w-fit rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background hover:opacity-90"
+        >
+          Ver cola en vivo
+        </Link>
       </div>
     );
   }

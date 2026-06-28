@@ -1,0 +1,242 @@
+{
+  "name": "ai_studio_hito33",
+  "settings": { "executionOrder": "v1" },
+  "nodes": [
+    {
+      "id": "trigger",
+      "name": "Cada minuto",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 300],
+      "parameters": { "rule": { "interval": [{ "field": "minutes", "minutesInterval": 1 }] } }
+    },
+    {
+      "id": "getjob",
+      "name": "Get pending job",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [220, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "https://tcbofejfvcyetlbxacrv.supabase.co/rest/v1/jobs?status=eq.pending&order=created_at.asc&limit=1&select=id,asset_id,batch_id,type,idempotency_key,attempts,payload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth"
+      },
+      "credentials": { "httpCustomAuth": { "id": "u1ugQkpkIE0TRWQL", "name": "AI Studio - Supabase (service_role)" } }
+    },
+    {
+      "id": "claim",
+      "name": "Claim job",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [440, 300],
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://tcbofejfvcyetlbxacrv.supabase.co/rest/v1/jobs?id=eq.{{ $json.id }}&status=eq.pending",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "keypair",
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }, { "name": "Prefer", "value": "return=representation" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ status: 'processing', started_at: new Date().toISOString(), attempts: ($json.attempts || 0) + 1 }) }}"
+      },
+      "credentials": { "httpCustomAuth": { "id": "u1ugQkpkIE0TRWQL", "name": "AI Studio - Supabase (service_role)" } }
+    },
+    {
+      "id": "copy",
+      "name": "Generate copy",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [660, 300],
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "keypair",
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 320, system: 'Eres copywriter de marca para redes sociales. Devuelve SOLO el caption final en espanol, conciso (menos de 280 caracteres), sin comillas, sin encabezados, sin explicaciones.', messages: [ { role: 'user', content: 'Concepto: ' + (($json.payload && $json.payload.content && $json.payload.content.concept) || '') + ' || Borrador: ' + (($json.payload && $json.payload.content && $json.payload.content.copy) || '') + ' || Plataforma: ' + (($json.payload && $json.payload.platform_target) || 'Instagram') } ] }) }}"
+      },
+      "credentials": { "httpCustomAuth": { "id": "qtVtqsN2T5Yn2HHs", "name": "AI Studio - Anthropic" } }
+    },
+    {
+      "id": "image",
+      "name": "Generate image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [880, 300],
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "method": "POST",
+        "url": "https://fal.run/fal-ai/flux/schnell",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "keypair",
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ prompt: ($('Claim job').item.json.payload && $('Claim job').item.json.payload.content && $('Claim job').item.json.payload.content.concept) || 'imagen de marca', image_size: 'square_hd', num_images: 1 }) }}"
+      },
+      "credentials": { "httpCustomAuth": { "id": "Gt32cr0yrxJzNdAB", "name": "AI Studio - fal.ai" } }
+    },
+    {
+      "id": "download",
+      "name": "Download image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1100, 240],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.images[0].url }}",
+        "options": { "response": { "response": { "responseFormat": "file", "outputPropertyName": "data" } } }
+      }
+    },
+    {
+      "id": "upload",
+      "name": "Upload to Storage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1320, 240],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://tcbofejfvcyetlbxacrv.supabase.co/storage/v1/object/assets/{{ $('Claim job').item.json.payload.brand_id }}/{{ $('Claim job').item.json.asset_id }}.png",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "keypair",
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "image/png" }, { "name": "x-upsert", "value": "true" }] },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data"
+      },
+      "credentials": { "httpCustomAuth": { "id": "u1ugQkpkIE0TRWQL", "name": "AI Studio - Supabase (service_role)" } }
+    },
+    {
+      "id": "updateasset",
+      "name": "Update asset",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1540, 240],
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://tcbofejfvcyetlbxacrv.supabase.co/rest/v1/assets?id=eq.{{ $('Claim job').item.json.asset_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "keypair",
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }, { "name": "Prefer", "value": "return=minimal" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ status: 'ready', media_url: 'assets/' + $('Claim job').item.json.payload.brand_id + '/' + $('Claim job').item.json.asset_id + '.png', content: Object.assign({}, $('Claim job').item.json.payload.content, { final_copy: ((($('Generate copy').item.json.content && $('Generate copy').item.json.content[0] && $('Generate copy').item.json.content[0].text) || '')).trim() }), cost: 0.004 }) }}"
+      },
+      "credentials": { "httpCustomAuth": { "id": "u1ugQkpkIE0TRWQL", "name": "AI Studio - Supabase (service_role)" } }
+    },
+    {
+      "id": "costlog",
+      "name": "Insert cost_log",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1760, 240],
+      "parameters": {
+        "method": "POST",
+        "url": "https://tcbofejfvcyetlbxacrv.supabase.co/rest/v1/cost_log",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "keypair",
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }, { "name": "Prefer", "value": "return=minimal" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify([ { brand_id: $('Claim job').item.json.payload.brand_id, batch_id: $('Claim job').item.json.batch_id, provider: 'anthropic', units: (($('Generate copy').item.json.usage && $('Generate copy').item.json.usage.output_tokens) || 0), cost: 0.001 }, { brand_id: $('Claim job').item.json.payload.brand_id, batch_id: $('Claim job').item.json.batch_id, provider: 'fal', units: 1, cost: 0.003 } ]) }}"
+      },
+      "credentials": { "httpCustomAuth": { "id": "u1ugQkpkIE0TRWQL", "name": "AI Studio - Supabase (service_role)" } }
+    },
+    {
+      "id": "jobdone",
+      "name": "Mark job done",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1980, 240],
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://tcbofejfvcyetlbxacrv.supabase.co/rest/v1/jobs?id=eq.{{ $('Claim job').item.json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "keypair",
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }, { "name": "Prefer", "value": "return=minimal" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ status: 'done', finished_at: new Date().toISOString(), result: { media_url: 'assets/' + $('Claim job').item.json.payload.brand_id + '/' + $('Claim job').item.json.asset_id + '.png' } }) }}"
+      },
+      "credentials": { "httpCustomAuth": { "id": "u1ugQkpkIE0TRWQL", "name": "AI Studio - Supabase (service_role)" } }
+    },
+    {
+      "id": "joberror",
+      "name": "Mark job error",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1100, 460],
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://tcbofejfvcyetlbxacrv.supabase.co/rest/v1/jobs?id=eq.{{ $('Claim job').item.json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "keypair",
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }, { "name": "Prefer", "value": "return=minimal" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ status: 'error', last_error: String((($json.error && ($json.error.message || $json.error.description)) || $json.error || 'Error en la generacion')).slice(0, 500), finished_at: new Date().toISOString() }) }}"
+      },
+      "credentials": { "httpCustomAuth": { "id": "u1ugQkpkIE0TRWQL", "name": "AI Studio - Supabase (service_role)" } }
+    },
+    {
+      "id": "asseterror",
+      "name": "Mark asset error",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1320, 460],
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://tcbofejfvcyetlbxacrv.supabase.co/rest/v1/assets?id=eq.{{ $('Claim job').item.json.asset_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "keypair",
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }, { "name": "Prefer", "value": "return=minimal" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ status: 'error' }) }}"
+      },
+      "credentials": { "httpCustomAuth": { "id": "u1ugQkpkIE0TRWQL", "name": "AI Studio - Supabase (service_role)" } }
+    }
+  ],
+  "connections": {
+    "Cada minuto": { "main": [[{ "node": "Get pending job", "type": "main", "index": 0 }]] },
+    "Get pending job": { "main": [[{ "node": "Claim job", "type": "main", "index": 0 }]] },
+    "Claim job": { "main": [[{ "node": "Generate copy", "type": "main", "index": 0 }]] },
+    "Generate copy": { "main": [[{ "node": "Generate image", "type": "main", "index": 0 }], [{ "node": "Mark job error", "type": "main", "index": 0 }]] },
+    "Generate image": { "main": [[{ "node": "Download image", "type": "main", "index": 0 }], [{ "node": "Mark job error", "type": "main", "index": 0 }]] },
+    "Download image": { "main": [[{ "node": "Upload to Storage", "type": "main", "index": 0 }]] },
+    "Upload to Storage": { "main": [[{ "node": "Update asset", "type": "main", "index": 0 }]] },
+    "Update asset": { "main": [[{ "node": "Insert cost_log", "type": "main", "index": 0 }]] },
+    "Insert cost_log": { "main": [[{ "node": "Mark job done", "type": "main", "index": 0 }]] },
+    "Mark job error": { "main": [[{ "node": "Mark asset error", "type": "main", "index": 0 }]] }
+  }
+}
