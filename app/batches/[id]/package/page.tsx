@@ -83,9 +83,17 @@ export default async function PackagePage({ params }: { params: Promise<{ id: st
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-10">
-      <Link href={`/batches/${id}/review`} className="text-sm text-neutral-400 hover:text-neutral-200">
-        ← Revisión
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href={`/batches/${id}/review`} className="text-sm text-neutral-400 hover:text-neutral-200">
+          ← Revisión
+        </Link>
+        <Link
+          href={`/batches/${id}/results`}
+          className="text-sm text-neutral-400 hover:text-neutral-200"
+        >
+          Resultados →
+        </Link>
+      </div>
 
       <header className="mb-6 mt-4">
         <h1 className="text-2xl font-semibold tracking-tight">Paquete — {batch.title}</h1>
