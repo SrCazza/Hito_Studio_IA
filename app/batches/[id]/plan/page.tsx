@@ -36,7 +36,8 @@ export default async function PlanPage({ params }: { params: Promise<{ id: strin
     .from("assets")
     .select("id, type, status, content, platform_target")
     .eq("batch_id", id)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: true })
+    .limit(100);
   const assets = (assetsData ?? []) as AssetRow[];
 
   const estimatedCost = estimateBatchCostUsd(assets);

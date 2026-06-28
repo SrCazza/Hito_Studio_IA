@@ -43,6 +43,12 @@ export default async function EditBrandPage({
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <Link
+            href={`/brands/${id}/batches`}
+            className="rounded-md border border-neutral-700 px-3 py-1.5 text-sm text-neutral-200 hover:border-neutral-500"
+          >
+            Ver tandas
+          </Link>
+          <Link
             href={`/brands/${id}/batches/new`}
             className="rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background hover:opacity-90"
           >

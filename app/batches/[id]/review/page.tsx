@@ -57,7 +57,8 @@ export default async function ReviewPage({ params }: { params: Promise<{ id: str
     .from("assets")
     .select("id, type, status, semaforo, semaforo_reasons, content, platform_target")
     .eq("batch_id", id)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: true })
+    .limit(100);
   const assets = (assetsData ?? []) as AssetRow[];
 
   const evaluated = assets.filter((a) => a.semaforo !== null).length;

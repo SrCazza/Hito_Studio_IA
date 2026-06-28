@@ -44,7 +44,8 @@ export default async function PackagePage({ params }: { params: Promise<{ id: st
     .from("assets")
     .select("id, type, content, media_url, platform_target")
     .eq("batch_id", id)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: true })
+    .limit(100);
   const assets = (assetsData ?? []) as AssetRow[];
 
   // Firma las URLs de Storage (bucket privado) para previsualizar/descargar.

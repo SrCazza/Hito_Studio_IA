@@ -1,22 +1,33 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { Pagination, PAGE_SIZE, pageRange, parsePage } from "@/components/Pagination";
 
 export const dynamic = "force-dynamic";
 
-export default async function BrandsPage() {
+export default async function BrandsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  // Sin SELECT *; trae solo lo que la lista necesita. RLS filtra por owner.
-  const { data: brands, error } = await supabase
+  const page = parsePage((await searchParams).page);
+  const [from, to] = pageRange(page);
+
+  // Sin SELECT *; trae solo lo que la lista necesita + count para paginar.
+  // RLS filtra por owner. Paginado (M7): nunca trae más de PAGE_SIZE filas.
+  const { data: brands, error, count } = await supabase
     .from("brands")
-    .select("id, name, sector, ai_visibility_policy, updated_at")
+    .select("id, name, sector, ai_visibility_policy, updated_at", { count: "exact" })
     .order("updated_at", { ascending: false })
-    .limit(50);
+    .range(from, to);
+
+  const hasMore = (count ?? 0) > page * PAGE_SIZE;
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-10">
@@ -71,6 +82,8 @@ export default async function BrandsPage() {
           </li>
         ))}
       </ul>
+
+      <Pagination basePath="/brands" page={page} hasMore={hasMore} />
     </main>
   );
 }

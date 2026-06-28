@@ -37,8 +37,9 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
       .from("assets")
       .select("id, type, content, platform_target")
       .eq("batch_id", id)
-      .order("created_at", { ascending: true }),
-    supabase.from("metrics").select("asset_id, metric_type, value").eq("batch_id", id),
+      .order("created_at", { ascending: true })
+      .limit(100),
+    supabase.from("metrics").select("asset_id, metric_type, value").eq("batch_id", id).limit(1000),
   ]);
   const assets = (assetsData ?? []) as AssetRow[];
 

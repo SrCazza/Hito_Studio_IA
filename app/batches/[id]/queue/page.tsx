@@ -64,8 +64,13 @@ export default async function QueuePage({ params }: { params: Promise<{ id: stri
       .from("assets")
       .select("id, type, status, content, media_url, platform_target")
       .eq("batch_id", id)
-      .order("created_at", { ascending: true }),
-    supabase.from("jobs").select("asset_id, status, attempts, last_error").eq("batch_id", id),
+      .order("created_at", { ascending: true })
+      .limit(100),
+    supabase
+      .from("jobs")
+      .select("asset_id, status, attempts, last_error")
+      .eq("batch_id", id)
+      .limit(500),
   ]);
 
   const assets = (assetsData ?? []) as AssetRow[];
