@@ -17,22 +17,12 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { serverEnv } from "@/lib/env";
 import { estimateBatchCostUsd } from "@/lib/cost";
-import type { AssetType, JobType } from "@/lib/types/database";
+import { ASSET_TO_JOB, idempotencyKey } from "@/lib/jobs";
+import type { AssetType } from "@/lib/types/database";
 
 export const runtime = "nodejs";
 
 const bodySchema = z.object({ override: z.boolean().optional().default(false) });
-
-/** Mapea el tipo de pieza al tipo de job de producción de media. */
-const ASSET_TO_JOB: Record<AssetType, JobType> = {
-  post: "image",
-  carousel: "image",
-  infographic: "image",
-  motion: "motion",
-  reel: "video",
-  avatar: "avatar",
-  voice: "voice",
-};
 
 export async function POST(
   request: NextRequest,
@@ -117,7 +107,7 @@ export async function POST(
       batch_id: id,
       type: jobType,
       status: "pending" as const,
-      idempotency_key: `${a.id}:${jobType}:v1`,
+      idempotency_key: idempotencyKey(a.id, jobType, 1),
       payload: {
         brand_id: batch.brand_id,
         asset_type: a.type,

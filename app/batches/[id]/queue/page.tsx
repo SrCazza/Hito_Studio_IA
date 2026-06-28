@@ -83,9 +83,17 @@ export default async function QueuePage({ params }: { params: Promise<{ id: stri
   return (
     <main className="mx-auto max-w-3xl px-6 py-10">
       <QueueAutoRefresh active={inFlight} />
-      <Link href={`/batches/${id}/plan`} className="text-sm text-neutral-400 hover:text-neutral-200">
-        ← Plan
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href={`/batches/${id}/plan`} className="text-sm text-neutral-400 hover:text-neutral-200">
+          ← Plan
+        </Link>
+        <Link
+          href={`/batches/${id}/review`}
+          className="text-sm text-neutral-400 hover:text-neutral-200"
+        >
+          Revisión →
+        </Link>
+      </div>
 
       <header className="mb-6 mt-4 flex items-start justify-between gap-4">
         <div>
