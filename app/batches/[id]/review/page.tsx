@@ -66,9 +66,17 @@ export default async function ReviewPage({ params }: { params: Promise<{ id: str
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-10">
-      <Link href={`/batches/${id}/queue`} className="text-sm text-neutral-400 hover:text-neutral-200">
-        ← Cola
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href={`/batches/${id}/queue`} className="text-sm text-neutral-400 hover:text-neutral-200">
+          ← Cola
+        </Link>
+        <Link
+          href={`/batches/${id}/package`}
+          className="text-sm text-neutral-400 hover:text-neutral-200"
+        >
+          Paquete →
+        </Link>
+      </div>
 
       <header className="mb-6 mt-4">
         <h1 className="text-2xl font-semibold tracking-tight">Revisión — {batch.title}</h1>
