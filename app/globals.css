@@ -26,6 +26,39 @@
   --red: #f87171;
 }
 
+/* ── Tema CLARO (landing/login). El panel se queda en el oscuro por defecto. ── */
+.theme-light {
+  --background: #f7f8f7;
+  --surface: #ffffff;
+  --surface-2: #eef1ee;
+  --foreground: #0c0f0e;
+  --muted: #586460;
+
+  --brand: #16794a;
+  --brand-600: #136a41;
+  --brand-500: #16794a;
+  --brand-400: #0f5d39; /* en claro, el "acento" es verde oscuro (contraste sobre blanco) */
+
+  --border: rgba(12, 15, 14, 0.09);
+  --border-strong: rgba(12, 15, 14, 0.16);
+
+  --green: #15803d;
+  --amber: #b45309;
+  --red: #dc2626;
+
+  background: var(--background);
+  color: var(--foreground);
+}
+.theme-light .text-gradient-brand {
+  background: linear-gradient(180deg, var(--foreground) 0%, var(--brand) 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.theme-light .glow-brand {
+  background: radial-gradient(60% 50% at 50% 0%, rgba(22, 121, 74, 0.1) 0%, rgba(22, 121, 74, 0) 70%);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
@@ -102,6 +135,11 @@ body {
   border-radius: 1rem;
 }
 
+/* Curva de easing fuerte (Emil): más intención que las nativas. */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
 /* Entrada sutil (hero / secciones). Stagger con --d inline. */
 @keyframes fade-up {
   from {
@@ -114,8 +152,56 @@ body {
   }
 }
 .animate-fade-up {
-  animation: fade-up 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation: fade-up 0.6s var(--ease-out) both;
   animation-delay: var(--d, 0ms);
+}
+
+/* Flotación sutil (iconos de plataformas, decorativo). */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+  animation-delay: var(--fd, 0ms);
+}
+
+/* Reveal al hacer scroll (lo activa <Reveal> con data-reveal="in"). */
+[data-reveal] {
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
+}
+[data-reveal="out"] {
+  opacity: 0;
+  transform: translateY(16px);
+}
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hover-lift en tarjetas (solo punteros finos; solo transform). */
+@media (hover: hover) and (pointer: fine) {
+  .hover-lift {
+    transition: transform 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+  }
+  .hover-lift:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Feedback de pulsación en CTAs. */
+.press {
+  transition: transform 0.16s var(--ease-out);
+}
+.press:active {
+  transform: scale(0.97);
 }
 
 /* Respeta reduced-motion globalmente */

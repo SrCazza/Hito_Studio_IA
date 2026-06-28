@@ -10,9 +10,11 @@ type Mode = "signin" | "signup";
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<main className="min-h-screen" />}>
-      <LoginForm />
-    </Suspense>
+    <div className="theme-light min-h-screen bg-background">
+      <Suspense fallback={<main className="min-h-screen" />}>
+        <LoginForm />
+      </Suspense>
+    </div>
   );
 }
 

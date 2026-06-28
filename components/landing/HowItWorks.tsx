@@ -12,9 +12,9 @@ const steps: Step[] = [
 
 export function HowItWorks() {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20">
+    <section id="como-funciona" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-20">
       <div className="max-w-2xl">
-        <p className="text-sm font-medium text-brand-400">Cómo funciona</p>
+        <p className="text-sm font-medium text-brand">Cómo funciona</p>
         <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">
           Siete pasos, siempre claros.
         </h2>

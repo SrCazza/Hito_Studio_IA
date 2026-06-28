@@ -33,20 +33,15 @@ export default async function BrandsPage({
     <main className="mx-auto max-w-3xl px-6 py-10">
       <header className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Marcas</h1>
-          <p className="text-sm text-neutral-400">Elige el perfil de hoy.</p>
+          <h1 className="font-display text-3xl tracking-tight">Marcas</h1>
+          <p className="mt-1 text-sm text-muted">Elige el perfil de hoy.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/brands/new"
-            className="rounded-md bg-foreground px-3 py-2 text-sm font-medium text-background hover:opacity-90"
-          >
-            Nueva marca
-          </Link>
-          <form action="/auth/signout" method="post">
-            <button className="text-sm text-neutral-400 hover:text-neutral-200">Salir</button>
-          </form>
-        </div>
+        <Link
+          href="/brands/new"
+          className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-600"
+        >
+          Nueva marca
+        </Link>
       </header>
 
       {error && (
@@ -69,13 +64,16 @@ export default async function BrandsPage({
           <li key={b.id}>
             <Link
               href={`/brands/${b.id}`}
-              className="flex items-center justify-between rounded-lg border border-neutral-800 px-4 py-3 transition hover:border-neutral-600 hover:bg-neutral-900"
+              className="card flex items-center gap-4 px-4 py-3.5 transition hover:border-border-strong hover:bg-surface-2/50"
             >
-              <span>
-                <span className="font-medium">{b.name}</span>
-                {b.sector && <span className="ml-2 text-sm text-neutral-500">{b.sector}</span>}
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand/15 text-sm font-semibold text-brand-400">
+                {b.name.slice(0, 2).toUpperCase()}
               </span>
-              <span className="text-xs uppercase tracking-wide text-neutral-500">
+              <span className="min-w-0 flex-1">
+                <span className="block truncate font-medium">{b.name}</span>
+                {b.sector && <span className="block truncate text-sm text-muted">{b.sector}</span>}
+              </span>
+              <span className="shrink-0 rounded-full border border-border px-2.5 py-1 text-[11px] uppercase tracking-wide text-muted">
                 IA: {b.ai_visibility_policy}
               </span>
             </Link>

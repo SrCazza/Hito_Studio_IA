@@ -6,20 +6,31 @@ import { HowItWorks } from "@/components/landing/HowItWorks";
 import { FeedPreview } from "@/components/landing/FeedPreview";
 import { ExamplesGallery } from "@/components/landing/ExamplesGallery";
 import { Footer } from "@/components/landing/Footer";
+import { Reveal } from "@/components/ui/Reveal";
 
 export default function Home() {
   return (
-    <>
+    <div className="theme-light">
       <Nav />
       <main>
         <Hero />
-        <ValueProps />
-        <Semaforo />
-        <HowItWorks />
-        <FeedPreview />
-        <ExamplesGallery />
+        <Reveal>
+          <ValueProps />
+        </Reveal>
+        <Reveal>
+          <Semaforo />
+        </Reveal>
+        <Reveal>
+          <HowItWorks />
+        </Reveal>
+        <Reveal>
+          <FeedPreview />
+        </Reveal>
+        <Reveal>
+          <ExamplesGallery />
+        </Reveal>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

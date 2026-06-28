@@ -25,11 +25,11 @@ const autoReds = ["Caras humanas IA", "Claims de producto", "Cifras y datos", "C
 
 export function Semaforo() {
   return (
-    <section className="relative border-y border-border bg-surface/30">
+    <section id="semaforo" className="relative scroll-mt-20 border-y border-border bg-surface-2/50">
       <div className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="text-sm font-medium text-brand-400">El semáforo</p>
+            <p className="text-sm font-medium text-brand">El semáforo</p>
             <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">
               Concentra tu ojo donde importa.
             </h2>

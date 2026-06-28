@@ -17,13 +17,13 @@ export function Footer() {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href="/login?mode=signup"
-              className="w-full rounded-md bg-brand px-5 py-3 text-sm font-medium text-white transition hover:bg-brand-600 sm:w-auto"
+              className="press w-full rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-600 sm:w-auto"
             >
-              Registrarte
+              Empieza gratis
             </Link>
             <Link
               href="/login"
-              className="w-full rounded-md border border-border-strong px-5 py-3 text-sm font-medium transition hover:bg-surface sm:w-auto"
+              className="press w-full rounded-full border border-border-strong bg-surface px-6 py-3 text-sm font-semibold transition hover:bg-surface-2 sm:w-auto"
             >
               Iniciar sesión
             </Link>

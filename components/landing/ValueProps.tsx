@@ -25,9 +25,9 @@ const items = [
 
 export function ValueProps() {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20">
+    <section id="que-hace" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-20">
       <div className="max-w-2xl">
-        <p className="text-sm font-medium text-brand-400">Un asistente, no un piloto automático</p>
+        <p className="text-sm font-medium text-brand">Un asistente, no un piloto automático</p>
         <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">
           Hace el trabajo pesado. Tú decides.
         </h2>
@@ -41,7 +41,7 @@ export function ValueProps() {
         {items.map(({ Icon, title, desc }) => (
           <div
             key={title}
-            className="card group p-5 transition-colors hover:border-border-strong"
+            className="card hover-lift group p-5 hover:border-border-strong"
           >
             <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface-2 text-brand-400 transition-colors group-hover:border-brand-400/40">
               <Icon />

@@ -28,7 +28,7 @@ export function ExamplesGallery() {
 
       <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {/* Post editorial */}
-        <article className="card overflow-hidden">
+        <article className="card hover-lift overflow-hidden">
           <div className="relative aspect-[4/5] bg-[#0e2a1f]">
             <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_20%_0%,rgba(52,211,153,0.3),transparent_55%)]" />
             <Logo size={22} badge={false} className="absolute right-4 top-4 text-white/60" />
@@ -43,7 +43,7 @@ export function ExamplesGallery() {
         </article>
 
         {/* Infografía */}
-        <article className="card overflow-hidden">
+        <article className="card hover-lift overflow-hidden">
           <div className="relative aspect-[4/5] bg-surface-2 p-5">
             <p className="font-display text-lg text-foreground">Qué cambia / qué no</p>
             <div className="mt-5 space-y-3">
@@ -69,7 +69,7 @@ export function ExamplesGallery() {
         </article>
 
         {/* Carrusel */}
-        <article className="card overflow-hidden">
+        <article className="card hover-lift overflow-hidden">
           <div className="relative aspect-[4/5] bg-[#101012] p-5">
             <div className="relative h-full">
               {[2, 1, 0].map((i) => (
