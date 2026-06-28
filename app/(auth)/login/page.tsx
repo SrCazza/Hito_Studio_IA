@@ -3,6 +3,8 @@
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { Wordmark } from "@/components/brand/Wordmark";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 
 type Mode = "signin" | "signup";
 
@@ -19,7 +21,7 @@ function LoginForm() {
   const params = useSearchParams();
   const redirectTo = params.get("redirectTo") || "/brands";
 
-  const [mode, setMode] = useState<Mode>("signin");
+  const [mode, setMode] = useState<Mode>(params.get("mode") === "signup" ? "signup" : "signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -61,48 +63,54 @@ function LoginForm() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 px-6">
+    <main className="relative mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-7 px-6">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 glow-brand" />
+
+      <Wordmark />
+
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="font-display text-3xl tracking-tight">
           {mode === "signin" ? "Iniciar sesión" : "Crear cuenta"}
         </h1>
-        <p className="mt-1 text-sm text-neutral-400">Studio de Contenido IA — panel interno.</p>
+        <p className="mt-1.5 text-sm text-muted">
+          {mode === "signin"
+            ? "Entra a tu panel de Hito IA Studio."
+            : "Crea tu cuenta para empezar."}
+        </p>
       </div>
 
-      <form onSubmit={onSubmit} className="flex flex-col gap-3">
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="text-neutral-400">Correo</span>
+      <form onSubmit={onSubmit} className="flex flex-col gap-3.5">
+        <label className="flex flex-col gap-1.5 text-sm">
+          <span className="text-muted">Correo</span>
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 outline-none focus:border-neutral-500"
+            className="w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-sm outline-none transition focus:border-brand-400"
             autoComplete="email"
           />
         </label>
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="text-neutral-400">Contraseña</span>
-          <input
-            type="password"
+        <label className="flex flex-col gap-1.5 text-sm">
+          <span className="text-muted">Contraseña</span>
+          <PasswordInput
+            value={password}
+            onChange={setPassword}
             required
             minLength={8}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 outline-none focus:border-neutral-500"
             autoComplete={mode === "signin" ? "current-password" : "new-password"}
           />
         </label>
 
-        {error && <p className="text-sm text-red-400">{error}</p>}
-        {info && <p className="text-sm text-emerald-400">{info}</p>}
+        {error && <p className="text-sm text-red">{error}</p>}
+        {info && <p className="text-sm text-brand-400">{info}</p>}
 
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-50"
+          className="mt-2 rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-white transition hover:bg-brand-600 disabled:opacity-50"
         >
-          {loading ? "..." : mode === "signin" ? "Entrar" : "Registrarme"}
+          {loading ? "…" : mode === "signin" ? "Entrar" : "Registrarme"}
         </button>
       </form>
 
@@ -113,7 +121,7 @@ function LoginForm() {
           setError(null);
           setInfo(null);
         }}
-        className="text-sm text-neutral-400 underline-offset-4 hover:underline"
+        className="text-sm text-muted underline-offset-4 transition hover:text-foreground hover:underline"
       >
         {mode === "signin" ? "¿No tienes cuenta? Crear una" : "¿Ya tienes cuenta? Inicia sesión"}
       </button>

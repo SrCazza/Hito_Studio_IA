@@ -1,14 +1,54 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────
+   Sistema de diseño — Hito IA Studio
+   Dark/OLED premium · verde de marca #16794A · acabados sobrios.
+   ───────────────────────────────────────────────────────────── */
 :root {
   --background: #0b0b0f;
+  --surface: #121216;
+  --surface-2: #17171d;
   --foreground: #ededed;
+  --muted: #9a9aa3;
+
+  /* Verde de marca (escala) */
+  --brand: #16794a; /* el verde del logo Hito33 */
+  --brand-600: #1b8f58;
+  --brand-500: #22a566;
+  --brand-400: #34d399; /* acento brillante para glows / enlaces sobre oscuro */
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  /* Semáforo */
+  --green: #34d399;
+  --amber: #fbbf24;
+  --red: #f87171;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-foreground: var(--foreground);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-muted: var(--muted);
+
+  --color-brand: var(--brand);
+  --color-brand-600: var(--brand-600);
+  --color-brand-500: var(--brand-500);
+  --color-brand-400: var(--brand-400);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-green: var(--green);
+  --color-amber: var(--amber);
+  --color-red: var(--red);
+
+  /* Fuentes (las setea next/font en el <html>) */
+  --font-display: var(--font-calistoga), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 html,
@@ -16,8 +56,76 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Focus visible para navegación por teclado (accesibilidad) */
+:focus-visible {
+  outline: 2px solid var(--brand-400);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Tipografía de marca para titulares */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Texto con degradado verde sutil (titulares de acento) */
+.text-gradient-brand {
+  background: linear-gradient(180deg, #ffffff 0%, #cfeede 60%, var(--brand-400) 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Glow radial verde de fondo (hero / secciones) */
+.glow-brand {
+  background: radial-gradient(60% 50% at 50% 0%, rgba(52, 211, 153, 0.16) 0%, rgba(52, 211, 153, 0) 70%);
+}
+
+/* Grano sutil para que no se vea plano/IA (usar como overlay) */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+/* Tarjeta base del sistema */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+/* Entrada sutil (hero / secciones). Stagger con --d inline. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Respeta reduced-motion globalmente */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
