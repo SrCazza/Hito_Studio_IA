@@ -41,6 +41,9 @@ Estos protegen el dinero, los datos y la marca. Si una tarea los rompe, para y a
 
 ## Convenciones de código
 
+- **Diseño/UI (obligatorio):** todo trabajo visual sigue `BRAND_GUIDELINE.md` (raíz del repo). Tokens
+  semánticos del sistema, primitivas en `components/ui/*`, sin hex ni `neutral-*` sueltos, sin guion
+  largo "-" en textos.
 - TypeScript estricto. Validación de input con Zod (o equivalente) en **cliente Y servidor**.
 - Escapa/sanitiza toda salida generada que se renderice (captions, copy) — anti-XSS.
 - Supabase: usa el cliente oficial (parametriza solo). Si hay SQL crudo, nada de concatenar input.

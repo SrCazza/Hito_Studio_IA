@@ -3,6 +3,8 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { BrandForm } from "@/components/BrandForm";
 import { updateBrand, deleteBrand } from "@/app/brands/actions";
+import { buttonVariants } from "@/components/ui/Button";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import type { Brand } from "@/lib/types/database";
 
 export const dynamic = "force-dynamic";
@@ -41,30 +43,24 @@ export default async function EditBrandPage({
           <h1 className="font-display text-3xl tracking-tight">{(brand as Brand).name}</h1>
           <p className="mt-1 text-sm text-muted">Perfil de marca, editable.</p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <Link
-            href={`/brands/${id}/batches`}
-            className="rounded-md border border-border-strong px-3 py-1.5 text-sm text-foreground hover:border-border-strong"
-          >
+        <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+          <Link href={`/brands/${id}/batches`} className={buttonVariants({ variant: "secondary", size: "sm" })}>
             Ver tandas
           </Link>
-          <Link
-            href={`/brands/${id}/batches/new`}
-            className="rounded-md bg-brand px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
-          >
+          <Link href={`/brands/${id}/batches/new`} className={buttonVariants({ variant: "primary", size: "sm" })}>
             Nueva tanda
           </Link>
-          <form action={boundDelete}>
-            <button className="rounded-md border border-red/40 px-3 py-1.5 text-sm text-red hover:bg-red/10">
-              Eliminar
-            </button>
-          </form>
+          <ConfirmDialog
+            triggerLabel="Eliminar"
+            title="Eliminar marca"
+            description="Se borrará la marca y todas sus tandas, piezas y métricas. Esta acción no se puede deshacer."
+            confirmLabel="Eliminar marca"
+            onConfirm={boundDelete}
+          />
         </div>
       </div>
 
       <BrandForm action={boundUpdate} brand={brand as Brand} submitLabel="Guardar cambios" />
-
-      <p className="mt-6 text-sm text-brand-400" />
     </main>
   );
 }

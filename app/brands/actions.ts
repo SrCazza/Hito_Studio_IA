@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { brandFormSchema } from "@/lib/validation/brand";
 
-export type ActionState = { error: string | null };
+export type ActionState = { error: string | null; ok?: boolean };
 
 /** Parsea el FormData y valida en servidor (no confiar en el cliente). */
 function parseBrandForm(formData: FormData) {
@@ -96,7 +96,7 @@ export async function updateBrand(
 
   revalidatePath("/brands");
   revalidatePath(`/brands/${id}`);
-  return { error: null };
+  return { error: null, ok: true };
 }
 
 export async function deleteBrand(id: string): Promise<void> {

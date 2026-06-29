@@ -1,10 +1,11 @@
 import { Wordmark } from "@/components/brand/Wordmark";
 import { SidebarNav } from "@/components/panel/SidebarNav";
+import { MobileNav } from "@/components/panel/MobileNav";
 
 /** Shell del panel: sidebar (desktop) + topbar + contenido. Oscuro. */
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen md:flex">
+    <div className="min-h-dvh md:flex">
       {/* Sidebar (desktop) */}
       <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-border bg-surface/40 md:flex">
         <div className="px-5 py-5">
@@ -29,11 +30,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Contenido */}
       <div className="min-w-0 flex-1">
         {/* Topbar (móvil) */}
-        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur md:hidden">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-border bg-background/80 px-4 backdrop-blur md:hidden">
+          <MobileNav />
           <Wordmark size={26} />
-          <form action="/auth/signout" method="post">
-            <button className="rounded-md px-2 py-1 text-sm text-muted hover:text-foreground">Salir</button>
-          </form>
         </header>
         {children}
       </div>

@@ -138,6 +138,36 @@ body {
 /* Curva de easing fuerte (Emil): más intención que las nativas. */
 :root {
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  /* Radii del sistema (ver BRAND_GUIDELINE.md) */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+}
+
+/* Titulares display (escala tipográfica del guideline). */
+.h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  font-size: clamp(1.875rem, 4.5vw, 3rem);
+}
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+}
+
+/* Spinner de carga reutilizable (botones). */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  animation: spin 0.7s linear infinite;
 }
 
 /* Entrada sutil (hero / secciones). Stagger con --d inline. */

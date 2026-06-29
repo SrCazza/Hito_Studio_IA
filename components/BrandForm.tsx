@@ -6,6 +6,8 @@ import Link from "next/link";
 import type { ActionState } from "@/app/brands/actions";
 import { linesToList } from "@/lib/validation/brand";
 import type { AiVisibility, Brand } from "@/lib/types/database";
+import { Button, buttonVariants } from "@/components/ui/Button";
+import { Field, Input, Textarea, Select } from "@/components/ui/form";
 
 type BrandAction = (prev: ActionState, formData: FormData) => Promise<ActionState>;
 
@@ -18,13 +20,9 @@ const AI_OPTIONS: { value: AiVisibility; label: string }[] = [
 function SubmitButton({ label }: { label: string }) {
   const { pending } = useFormStatus();
   return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
-    >
+    <Button type="submit" loading={pending}>
       {pending ? "Guardando…" : label}
-    </button>
+    </Button>
   );
 }
 
@@ -61,7 +59,7 @@ function AssistButton({
       type="button"
       onClick={run}
       disabled={loading}
-      className="text-xs text-muted underline-offset-2 hover:text-foreground hover:underline disabled:opacity-50"
+      className="text-xs text-brand-400 underline-offset-2 transition hover:underline disabled:opacity-50"
     >
       {loading ? "Pensando…" : "✨ Ayúdame"}
     </button>
@@ -77,9 +75,7 @@ export function BrandForm({
   brand?: Brand;
   submitLabel: string;
 }) {
-  const [state, formAction] = useActionState<ActionState, FormData>(action, {
-    error: null,
-  });
+  const [state, formAction] = useActionState<ActionState, FormData>(action, { error: null });
 
   const [fields, setFields] = useState({
     name: brand?.name ?? "",
@@ -106,138 +102,72 @@ export function BrandForm({
 
   return (
     <form action={formAction} className="flex max-w-2xl flex-col gap-5">
-      {/* Listas serializadas como JSON para el server action */}
       <input type="hidden" name="do_list" value={JSON.stringify(linesToList(fields.do_list))} />
       <input type="hidden" name="dont_list" value={JSON.stringify(linesToList(fields.dont_list))} />
 
-      <Field label="Nombre de la marca" required>
-        <input
-          name="name"
-          required
-          value={fields.name}
-          onChange={(e) => set("name", e.target.value)}
-          className={inputCls}
-        />
-      </Field>
-
-      <Field label="Sector">
-        <input
-          name="sector"
-          value={fields.sector}
-          onChange={(e) => set("sector", e.target.value)}
-          className={inputCls}
-        />
-      </Field>
-
-      <Field
-        label="Objetivo"
-        assist={<AssistButton field="objetivo" getContext={ctx} onSuggest={(t) => set("objetivo", t)} />}
-      >
-        <textarea
-          name="objetivo"
-          rows={2}
-          value={fields.objetivo}
-          onChange={(e) => set("objetivo", e.target.value)}
-          className={inputCls}
-        />
-      </Field>
-
-      <Field
-        label="Público"
-        assist={<AssistButton field="publico" getContext={ctx} onSuggest={(t) => set("publico", t)} />}
-      >
-        <textarea
-          name="publico"
-          rows={2}
-          value={fields.publico}
-          onChange={(e) => set("publico", e.target.value)}
-          className={inputCls}
-        />
-      </Field>
-
-      <Field
-        label="Tono de voz"
-        assist={<AssistButton field="tono" getContext={ctx} onSuggest={(t) => set("tono", t)} />}
-      >
-        <textarea
-          name="tono"
-          rows={2}
-          value={fields.tono}
-          onChange={(e) => set("tono", e.target.value)}
-          className={inputCls}
-        />
-      </Field>
-
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Qué SÍ (una línea por ítem)">
-          <textarea
-            rows={4}
-            value={fields.do_list}
-            onChange={(e) => set("do_list", e.target.value)}
-            className={inputCls}
-          />
+      <div className="card flex flex-col gap-5 p-5 sm:p-6">
+        <Field label="Nombre de la marca" required>
+          <Input name="name" required value={fields.name} onChange={(e) => set("name", e.target.value)} />
         </Field>
-        <Field label="Qué NO (una línea por ítem)">
-          <textarea
-            rows={4}
-            value={fields.dont_list}
-            onChange={(e) => set("dont_list", e.target.value)}
-            className={inputCls}
-          />
+
+        <Field label="Sector" hint="Ej. Tecnología, moda, gastronomía…">
+          <Input name="sector" value={fields.sector} onChange={(e) => set("sector", e.target.value)} />
+        </Field>
+
+        <Field
+          label="Objetivo"
+          assist={<AssistButton field="objetivo" getContext={ctx} onSuggest={(t) => set("objetivo", t)} />}
+        >
+          <Textarea name="objetivo" rows={2} value={fields.objetivo} onChange={(e) => set("objetivo", e.target.value)} />
+        </Field>
+
+        <Field
+          label="Público"
+          assist={<AssistButton field="publico" getContext={ctx} onSuggest={(t) => set("publico", t)} />}
+        >
+          <Textarea name="publico" rows={2} value={fields.publico} onChange={(e) => set("publico", e.target.value)} />
+        </Field>
+
+        <Field
+          label="Tono de voz"
+          assist={<AssistButton field="tono" getContext={ctx} onSuggest={(t) => set("tono", t)} />}
+        >
+          <Textarea name="tono" rows={2} value={fields.tono} onChange={(e) => set("tono", e.target.value)} />
+        </Field>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Field label="Qué SÍ" hint="Una línea por ítem">
+            <Textarea rows={4} value={fields.do_list} onChange={(e) => set("do_list", e.target.value)} />
+          </Field>
+          <Field label="Qué NO" hint="Una línea por ítem">
+            <Textarea rows={4} value={fields.dont_list} onChange={(e) => set("dont_list", e.target.value)} />
+          </Field>
+        </div>
+
+        <Field label="Política de IA visible" hint="Cuánta IA generativa se permite mostrar">
+          <Select
+            name="ai_visibility_policy"
+            value={fields.ai_visibility_policy}
+            onChange={(e) => set("ai_visibility_policy", e.target.value)}
+          >
+            {AI_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </Select>
         </Field>
       </div>
 
-      <Field label="Política de IA visible">
-        <select
-          name="ai_visibility_policy"
-          value={fields.ai_visibility_policy}
-          onChange={(e) => set("ai_visibility_policy", e.target.value)}
-          className={inputCls}
-        >
-          {AI_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-      </Field>
-
       {state.error && <p className="text-sm text-red">{state.error}</p>}
+      {state.ok && !state.error && <p className="text-sm text-brand-400">✓ Cambios guardados.</p>}
 
       <div className="flex items-center gap-3">
         <SubmitButton label={submitLabel} />
-        <Link href="/brands" className="text-sm text-muted hover:text-foreground">
+        <Link href="/brands" className={buttonVariants({ variant: "ghost" })}>
           Cancelar
         </Link>
       </div>
     </form>
-  );
-}
-
-const inputCls =
-  "w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-sm outline-none focus:border-brand-400";
-
-function Field({
-  label,
-  required,
-  assist,
-  children,
-}: {
-  label: string;
-  required?: boolean;
-  assist?: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="flex flex-col gap-1.5">
-      <span className="flex items-center justify-between text-sm text-muted">
-        <span>
-          {label}
-          {required && <span className="text-red"> *</span>}
-        </span>
-        {assist}
-      </span>
-      {children}
-    </label>
   );
 }
