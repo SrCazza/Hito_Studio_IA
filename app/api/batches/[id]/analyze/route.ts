@@ -7,6 +7,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { analyzeBatch, type AssetMetrics } from "@/lib/analyst";
+import { limitOr429 } from "@/lib/rate-limit";
 import type { Brand } from "@/lib/types/database";
 
 export const runtime = "nodejs";
@@ -33,6 +34,9 @@ export async function POST(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "No autenticado." }, { status: 401 });
+
+  const limited = limitOr429(user.id, "analyze", 10);
+  if (limited) return limited;
 
   const { data: batch } = await supabase
     .from("batches")

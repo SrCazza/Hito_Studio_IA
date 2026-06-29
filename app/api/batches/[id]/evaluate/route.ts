@@ -7,6 +7,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { evaluateSemaforo } from "@/lib/semaforo";
+import { limitOr429 } from "@/lib/rate-limit";
 import type { AssetType, Brand } from "@/lib/types/database";
 
 export const runtime = "nodejs";
@@ -31,6 +32,9 @@ export async function POST(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "No autenticado." }, { status: 401 });
+
+  const limited = limitOr429(user.id, "evaluate", 12);
+  if (limited) return limited;
 
   // RLS confirma propiedad de la tanda.
   const { data: batch } = await supabase

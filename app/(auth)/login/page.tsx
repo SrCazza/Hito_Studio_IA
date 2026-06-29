@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, setRememberPreference } from "@/lib/supabase/client";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { PLATFORMS } from "@/lib/platforms";
@@ -65,11 +65,12 @@ function LoginBackground() {
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const redirectTo = params.get("redirectTo") || "/brands";
+  const redirectTo = params.get("redirectTo") || "/inicio";
 
   const [mode, setMode] = useState<Mode>(params.get("mode") === "signup" ? "signup" : "signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
@@ -79,6 +80,7 @@ function LoginForm() {
     setLoading(true);
     setError(null);
     setInfo(null);
+    setRememberPreference(remember);
     const supabase = createClient();
 
     if (mode === "signin") {
@@ -145,6 +147,16 @@ function LoginForm() {
             minLength={8}
             autoComplete={mode === "signin" ? "current-password" : "new-password"}
           />
+        </label>
+
+        <label className="flex cursor-pointer items-center gap-2 text-sm text-muted">
+          <input
+            type="checkbox"
+            checked={remember}
+            onChange={(e) => setRemember(e.target.checked)}
+            className="h-4 w-4 accent-brand"
+          />
+          Mantener sesión iniciada
         </label>
 
         {error && <p className="text-sm text-red">{error}</p>}
