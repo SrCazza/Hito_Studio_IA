@@ -15,7 +15,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-50"
+      className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
     >
       {pending ? "Generando plan…" : "Crear tanda y generar plan"}
     </button>
@@ -51,16 +51,16 @@ export function BatchForm({ action, brandId }: { action: BatchAction; brandId: s
       </Field>
 
       <fieldset className="flex flex-col gap-3">
-        <legend className="text-sm text-neutral-400">Mix de formatos</legend>
+        <legend className="text-sm text-muted">Mix de formatos</legend>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {MIX_TYPES.map((t) => (
             <label
               key={t}
-              className="flex items-center justify-between rounded-md border border-neutral-800 px-3 py-2"
+              className="flex items-center justify-between rounded-md border border-border px-3 py-2"
             >
               <span className="text-sm">
                 {MIX_LABELS[t]}
-                <span className="ml-2 text-xs text-neutral-500">{formatUsd(ASSET_COST_USD[t])}/u</span>
+                <span className="ml-2 text-xs text-muted">{formatUsd(ASSET_COST_USD[t])}/u</span>
               </span>
               <input
                 type="number"
@@ -69,14 +69,14 @@ export function BatchForm({ action, brandId }: { action: BatchAction; brandId: s
                 max={20}
                 value={mix[t]}
                 onChange={(e) => setCount(t, parseInt(e.target.value, 10))}
-                className="w-16 rounded-md border border-neutral-700 bg-neutral-900 px-2 py-1 text-right text-sm outline-none focus:border-neutral-500"
+                className="w-16 rounded-md border border-border-strong bg-surface px-2 py-1 text-right text-sm outline-none focus:border-brand-400"
               />
             </label>
           ))}
         </div>
-        <p className="text-sm text-neutral-400">
+        <p className="text-sm text-muted">
           {total} pieza{total === 1 ? "" : "s"} · costo estimado{" "}
-          <span className="font-medium text-neutral-200">{formatUsd(estimated)}</span>
+          <span className="font-medium text-foreground">{formatUsd(estimated)}</span>
         </p>
       </fieldset>
 
@@ -91,11 +91,11 @@ export function BatchForm({ action, brandId }: { action: BatchAction; brandId: s
         />
       </Field>
 
-      {state.error && <p className="text-sm text-red-400">{state.error}</p>}
+      {state.error && <p className="text-sm text-red">{state.error}</p>}
 
       <div className="flex items-center gap-3">
         <SubmitButton />
-        <Link href={`/brands/${brandId}`} className="text-sm text-neutral-400 hover:text-neutral-200">
+        <Link href={`/brands/${brandId}`} className="text-sm text-muted hover:text-foreground">
           Cancelar
         </Link>
       </div>
@@ -104,7 +104,7 @@ export function BatchForm({ action, brandId }: { action: BatchAction; brandId: s
 }
 
 const inputCls =
-  "w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-sm outline-none focus:border-neutral-500";
+  "w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-sm outline-none focus:border-brand-400";
 
 function Field({
   label,
@@ -117,9 +117,9 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="text-sm text-neutral-400">
+      <span className="text-sm text-muted">
         {label}
-        {required && <span className="text-red-400"> *</span>}
+        {required && <span className="text-red"> *</span>}
       </span>
       {children}
     </label>

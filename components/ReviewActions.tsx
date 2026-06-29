@@ -34,7 +34,7 @@ export function ReviewToolbar({ batchId, canFinalize }: { batchId: string; canFi
         <button
           onClick={() => run("eval", `/api/batches/${batchId}/evaluate`)}
           disabled={busy !== null}
-          className="rounded-md border border-neutral-700 px-3 py-1.5 text-sm text-neutral-200 transition hover:border-neutral-500 disabled:opacity-50"
+          className="rounded-full border border-border-strong px-4 py-1.5 text-sm text-foreground transition hover:bg-surface-2 disabled:opacity-50"
         >
           {busy === "eval" ? "Evaluando…" : "Evaluar semáforo"}
         </button>
@@ -42,12 +42,12 @@ export function ReviewToolbar({ batchId, canFinalize }: { batchId: string; canFi
           onClick={() => run("final", `/api/batches/${batchId}/finalize`)}
           disabled={busy !== null || !canFinalize}
           title={canFinalize ? "" : "Aprueba todas las piezas primero"}
-          className="rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-50"
+          className="press rounded-full bg-brand px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-brand-600 disabled:opacity-50"
         >
           {busy === "final" ? "Cerrando…" : "Marcar tanda lista"}
         </button>
       </div>
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-red">{error}</p>}
     </div>
   );
 }
@@ -78,18 +78,18 @@ export function PieceActions({
       <button
         onClick={() => run("approve", `/api/assets/${assetId}/approve`)}
         disabled={busy !== null || accepted}
-        className="rounded-md border border-emerald-800 px-2.5 py-1 text-xs text-emerald-300 transition hover:bg-emerald-950/40 disabled:opacity-50"
+        className="rounded-full border border-brand-400/40 px-3 py-1 text-xs text-brand-400 transition hover:bg-brand/10 disabled:opacity-50"
       >
         {accepted ? "✓ Aprobada" : busy === "approve" ? "Aprobando…" : "Aprobar"}
       </button>
       <button
         onClick={() => run("regen", `/api/assets/${assetId}/regenerate`)}
         disabled={busy !== null}
-        className="rounded-md border border-neutral-700 px-2.5 py-1 text-xs text-neutral-300 transition hover:border-neutral-500 disabled:opacity-50"
+        className="rounded-full border border-border-strong px-3 py-1 text-xs text-muted transition hover:text-foreground disabled:opacity-50"
       >
         {busy === "regen" ? "Re-encolando…" : "Regenerar"}
       </button>
-      {error && <span className="text-xs text-red-400">{error}</span>}
+      {error && <span className="text-xs text-red">{error}</span>}
     </div>
   );
 }

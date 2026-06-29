@@ -1,5 +1,5 @@
 /**
- * POST /api/batches/[id]/approve — el gate de aprobación (BLUEPRINT §4).
+ * POST /api/batches/[id]/approve - el gate de aprobación (BLUEPRINT §4).
  *
  * Guardrails (CLAUDE.md):
  *  #1 Nada se produce sin aprobación: esta es la ÚNICA ruta que inserta `jobs`,

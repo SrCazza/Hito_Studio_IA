@@ -1,5 +1,5 @@
 /**
- * POST /api/assets/[id]/approve — el humano acepta una pieza en la revisión.
+ * POST /api/assets/[id]/approve - el humano acepta una pieza en la revisión.
  * Marca `content.accepted = true` (la mano de diseñador del semáforo).
  */
 import { NextResponse, type NextRequest } from "next/server";

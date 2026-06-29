@@ -71,11 +71,11 @@ export function PlanActions({
 
   if (isApproved) {
     return (
-      <div className="flex flex-col gap-3 rounded-lg border border-emerald-900 bg-emerald-950/30 px-4 py-3 text-sm text-emerald-300">
+      <div className="card flex flex-col gap-3 border-brand-400/30 bg-brand/10 px-4 py-3 text-sm text-brand-400">
         <span>✓ Tanda aprobada. La producción se encoló.</span>
         <Link
           href={`/batches/${batchId}/queue`}
-          className="w-fit rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background hover:opacity-90"
+          className="press w-fit rounded-full bg-brand px-3.5 py-1.5 text-sm font-medium text-white transition hover:bg-brand-600"
         >
           Ver cola en vivo
         </Link>
@@ -85,15 +85,15 @@ export function PlanActions({
 
   return (
     <div className="flex flex-col gap-3">
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-red">{error}</p>}
 
       {exceeds && hasPlan && (
-        <label className="flex items-center gap-2 text-sm text-amber-300">
+        <label className="flex items-center gap-2 text-sm text-amber">
           <input
             type="checkbox"
             checked={override}
             onChange={(e) => setOverride(e.target.checked)}
-            className="h-4 w-4"
+            className="h-4 w-4 accent-brand"
           />
           El costo supera el tope. Confirmo el override para aprobar igual.
         </label>
@@ -104,7 +104,7 @@ export function PlanActions({
           <button
             onClick={approve}
             disabled={busy !== null || (exceeds && !override)}
-            className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-50"
+            className="press rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-600 disabled:opacity-50"
           >
             {busy === "approve" ? "Aprobando…" : "Aprobar y encolar"}
           </button>
@@ -112,7 +112,7 @@ export function PlanActions({
         <button
           onClick={generate}
           disabled={busy !== null}
-          className="rounded-md border border-neutral-700 px-4 py-2 text-sm text-neutral-300 transition hover:border-neutral-500 disabled:opacity-50"
+          className="rounded-full border border-border-strong px-5 py-2.5 text-sm text-foreground transition hover:bg-surface-2 disabled:opacity-50"
         >
           {busy === "plan" ? "Generando…" : hasPlan ? "Regenerar plan" : "Generar plan"}
         </button>

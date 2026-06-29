@@ -83,31 +83,27 @@ export default async function PackagePage({ params }: { params: Promise<{ id: st
   }));
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-10">
+    <main className="mx-auto max-w-3xl px-6 py-8">
       <div className="flex items-center justify-between">
-        <Link href={`/batches/${id}/review`} className="text-sm text-neutral-400 hover:text-neutral-200">
+        <Link href={`/batches/${id}/review`} className="text-sm text-muted transition hover:text-foreground">
           ← Revisión
         </Link>
-        <Link
-          href={`/batches/${id}/results`}
-          className="text-sm text-neutral-400 hover:text-neutral-200"
-        >
+        <Link href={`/batches/${id}/results`} className="text-sm text-muted transition hover:text-foreground">
           Resultados →
         </Link>
       </div>
 
       <header className="mb-6 mt-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Paquete — {batch.title}</h1>
-        <p className="mt-1 text-sm text-neutral-400">
-          Copia el texto y descarga la media para subir a mano a cada plataforma. Estado{" "}
-          {batch.status}.
+        <h1 className="font-display text-3xl tracking-tight">Paquete: {batch.title}</h1>
+        <p className="mt-1.5 text-sm text-muted">
+          Copia el texto y descarga la media para subir a mano a cada plataforma. Estado {batch.status}.
         </p>
       </header>
 
       <PackageView batchId={batch.id} status={batch.status} platforms={platforms} />
 
       {assets.length === 0 && (
-        <p className="rounded-lg border border-dashed border-neutral-700 px-6 py-10 text-center text-neutral-400">
+        <p className="rounded-lg border border-dashed border-border-strong px-6 py-10 text-center text-muted">
           Esta tanda no tiene piezas.
         </p>
       )}

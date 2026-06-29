@@ -7,14 +7,14 @@ import { Pagination, PAGE_SIZE, pageRange, parsePage } from "@/components/Pagina
 export const dynamic = "force-dynamic";
 
 const STATUS_STYLE: Record<string, string> = {
-  draft: "text-neutral-400",
+  draft: "text-muted",
   planned: "text-sky-300",
   approved: "text-sky-300",
   producing: "text-sky-300",
   review: "text-amber-300",
-  ready: "text-emerald-300",
-  published: "text-emerald-400",
-  archived: "text-neutral-500",
+  ready: "text-brand-400",
+  published: "text-brand-400",
+  archived: "text-muted",
 };
 
 export default async function BrandBatchesPage({
@@ -52,26 +52,26 @@ export default async function BrandBatchesPage({
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-10">
-      <Link href={`/brands/${id}`} className="text-sm text-neutral-400 hover:text-neutral-200">
+      <Link href={`/brands/${id}`} className="text-sm text-muted hover:text-foreground">
         ← {brand.name}
       </Link>
 
       <header className="mb-6 mt-4 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Tandas</h1>
-          <p className="text-sm text-neutral-400">{count ?? 0} en total.</p>
+          <h1 className="font-display text-3xl tracking-tight">Tandas</h1>
+          <p className="mt-1 text-sm text-muted">{count ?? 0} en total.</p>
         </div>
         <Link
           href={`/brands/${id}/batches/new`}
-          className="rounded-md bg-foreground px-3 py-2 text-sm font-medium text-background hover:opacity-90"
+          className="press rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-600"
         >
           Nueva tanda
         </Link>
       </header>
 
       {batches && batches.length === 0 && (
-        <div className="rounded-lg border border-dashed border-neutral-700 px-6 py-12 text-center">
-          <p className="text-neutral-400">Todavía no hay tandas para esta marca.</p>
+        <div className="rounded-lg border border-dashed border-border-strong px-6 py-12 text-center">
+          <p className="text-muted">Todavía no hay tandas para esta marca.</p>
         </div>
       )}
 
@@ -80,17 +80,17 @@ export default async function BrandBatchesPage({
           <li key={b.id}>
             <Link
               href={`/batches/${b.id}/plan`}
-              className="flex items-center justify-between rounded-lg border border-neutral-800 px-4 py-3 transition hover:border-neutral-600 hover:bg-neutral-900"
+              className="card flex items-center justify-between px-4 py-3.5 transition hover:border-border-strong hover:bg-surface-2/50"
             >
               <span className="min-w-0">
                 <span className="font-medium">{b.title}</span>
-                <span className="ml-2 text-xs text-neutral-500">
+                <span className="ml-2 text-xs text-muted">
                   {new Date(b.created_at).toLocaleDateString("es-EC")}
                 </span>
               </span>
               <span className="flex shrink-0 items-center gap-3">
-                <span className="text-xs text-neutral-500">{formatUsd(b.estimated_cost)}</span>
-                <span className={`text-xs uppercase tracking-wide ${STATUS_STYLE[b.status] ?? "text-neutral-400"}`}>
+                <span className="text-xs text-muted">{formatUsd(b.estimated_cost)}</span>
+                <span className={`text-xs uppercase tracking-wide ${STATUS_STYLE[b.status] ?? "text-muted"}`}>
                   {b.status}
                 </span>
               </span>

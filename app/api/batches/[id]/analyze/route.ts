@@ -1,5 +1,5 @@
 /**
- * POST /api/batches/[id]/analyze — el analista (Sonnet) resume el rendimiento de
+ * POST /api/batches/[id]/analyze - el analista (Sonnet) resume el rendimiento de
  * la tanda y propone ajustes concretos al perfil/estrategia (M6). Persiste el
  * reporte en `batches.strategy.analysis`.
  */

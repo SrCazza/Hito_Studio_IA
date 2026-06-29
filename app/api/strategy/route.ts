@@ -1,5 +1,5 @@
 /**
- * POST /api/strategy — (re)genera el plan de una tanda (BLUEPRINT §4).
+ * POST /api/strategy - (re)genera el plan de una tanda (BLUEPRINT §4).
  * Body: { batch_id }. Requiere sesión; la propiedad la garantiza RLS.
  */
 import { NextResponse, type NextRequest } from "next/server";

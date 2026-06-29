@@ -1,5 +1,5 @@
 /**
- * POST /api/assets/[id]/regenerate — re-encola una pieza con un NUEVO
+ * POST /api/assets/[id]/regenerate - re-encola una pieza con un NUEVO
  * idempotency_key (BLUEPRINT §4). Una regeneración es una generación nueva y
  * deliberada: reutiliza la MISMA fila `asset` (no duplica la previa) y crea un
  * job nuevo con clave versionada (no recobra la generación anterior).

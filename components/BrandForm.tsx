@@ -21,7 +21,7 @@ function SubmitButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-50"
+      className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
     >
       {pending ? "Guardando…" : label}
     </button>
@@ -61,7 +61,7 @@ function AssistButton({
       type="button"
       onClick={run}
       disabled={loading}
-      className="text-xs text-neutral-400 underline-offset-2 hover:text-neutral-200 hover:underline disabled:opacity-50"
+      className="text-xs text-muted underline-offset-2 hover:text-foreground hover:underline disabled:opacity-50"
     >
       {loading ? "Pensando…" : "✨ Ayúdame"}
     </button>
@@ -202,11 +202,11 @@ export function BrandForm({
         </select>
       </Field>
 
-      {state.error && <p className="text-sm text-red-400">{state.error}</p>}
+      {state.error && <p className="text-sm text-red">{state.error}</p>}
 
       <div className="flex items-center gap-3">
         <SubmitButton label={submitLabel} />
-        <Link href="/brands" className="text-sm text-neutral-400 hover:text-neutral-200">
+        <Link href="/brands" className="text-sm text-muted hover:text-foreground">
           Cancelar
         </Link>
       </div>
@@ -215,7 +215,7 @@ export function BrandForm({
 }
 
 const inputCls =
-  "w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-sm outline-none focus:border-neutral-500";
+  "w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-sm outline-none focus:border-brand-400";
 
 function Field({
   label,
@@ -230,10 +230,10 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="flex items-center justify-between text-sm text-neutral-400">
+      <span className="flex items-center justify-between text-sm text-muted">
         <span>
           {label}
-          {required && <span className="text-red-400"> *</span>}
+          {required && <span className="text-red"> *</span>}
         </span>
         {assist}
       </span>

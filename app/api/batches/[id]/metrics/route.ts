@@ -1,5 +1,5 @@
 /**
- * POST /api/batches/[id]/metrics — registra métricas de una pieza (M6).
+ * POST /api/batches/[id]/metrics - registra métricas de una pieza (M6).
  * Entrada manual (el humano registra lo que ve en la plataforma); misma forma
  * que escribiría el colector de n8n. RLS no deja a usuarios escribir en
  * `metrics` (solo service-role), así que se verifica ownership con la sesión y

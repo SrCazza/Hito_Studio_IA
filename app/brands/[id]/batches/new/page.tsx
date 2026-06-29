@@ -30,11 +30,11 @@ export default async function NewBatchPage({
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-10">
-      <Link href={`/brands/${id}`} className="text-sm text-neutral-400 hover:text-neutral-200">
+      <Link href={`/brands/${id}`} className="text-sm text-muted hover:text-foreground">
         ← {brand.name}
       </Link>
-      <h1 className="mb-1 mt-4 text-2xl font-semibold tracking-tight">Nueva tanda</h1>
-      <p className="mb-8 text-sm text-neutral-400">
+      <h1 className="mb-1 mt-4 font-display text-3xl tracking-tight">Nueva tanda</h1>
+      <p className="mb-8 text-sm text-muted">
         Escribe el brief y define el mix. El estratega propone un plan con costo estimado; tú lo
         apruebas antes de gastar.
       </p>

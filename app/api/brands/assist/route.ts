@@ -1,5 +1,5 @@
 /**
- * POST /api/brands/assist — onboarding asistido por LLM.
+ * POST /api/brands/assist - onboarding asistido por LLM.
  * Sugiere el contenido de un campo del perfil de marca a partir del contexto
  * que el usuario ya escribió. Requiere sesión.
  */

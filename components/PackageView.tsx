@@ -19,7 +19,7 @@ function CopyButton({ text, label = "Copiar" }: { text: string; label?: string }
     <button
       onClick={copy}
       disabled={!text}
-      className="rounded-md border border-neutral-700 px-2.5 py-1 text-xs text-neutral-300 transition hover:border-neutral-500 disabled:opacity-50"
+      className="rounded-md border border-border-strong px-2.5 py-1 text-xs text-foreground/85 transition hover:border-border-strong disabled:opacity-50"
     >
       {done ? "✓ Copiado" : label}
     </button>
@@ -33,7 +33,7 @@ function PublishButton({ batchId, status }: { batchId: string; status: string })
 
   if (status === "published") {
     return (
-      <div className="rounded-lg border border-emerald-900 bg-emerald-950/30 px-4 py-3 text-sm text-emerald-300">
+      <div className="rounded-lg border border-brand-400/30 bg-brand/10 px-4 py-3 text-sm text-brand-400">
         ✓ Tanda marcada como publicada.
       </div>
     );
@@ -59,18 +59,18 @@ function PublishButton({ batchId, status }: { batchId: string; status: string })
 
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted">
         La publicación es manual: sube el paquete a cada plataforma y luego marca la tanda como
         publicada.
       </p>
       <button
         onClick={publish}
         disabled={busy}
-        className="w-fit rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-50"
+        className="w-fit rounded-md bg-brand px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
       >
         {busy ? "Marcando…" : "Marcar como publicada"}
       </button>
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-red">{error}</p>}
     </div>
   );
 }
@@ -93,10 +93,10 @@ export function PackageView({
           .join("\n\n---\n\n");
         return (
           <section key={platform.name} className="flex flex-col gap-3">
-            <div className="flex items-center justify-between border-b border-neutral-800 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-300">
+            <div className="flex items-center justify-between border-b border-border pb-2">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground/85">
                 {platform.name}
-                <span className="ml-2 text-xs lowercase text-neutral-500">
+                <span className="ml-2 text-xs lowercase text-muted">
                   {platform.pieces.length} pieza{platform.pieces.length === 1 ? "" : "s"}
                 </span>
               </h2>
@@ -105,7 +105,7 @@ export function PackageView({
 
             <ul className="flex flex-col gap-3">
               {platform.pieces.map((p) => (
-                <li key={p.id} className="rounded-lg border border-neutral-800 px-4 py-3">
+                <li key={p.id} className="rounded-lg border border-border px-4 py-3">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium">{p.typeLabel}</span>
                     <div className="flex items-center gap-2">
@@ -114,17 +114,17 @@ export function PackageView({
                         <a
                           href={p.mediaUrl}
                           download={p.mediaName ?? undefined}
-                          className="rounded-md border border-neutral-700 px-2.5 py-1 text-xs text-neutral-300 transition hover:border-neutral-500"
+                          className="rounded-md border border-border-strong px-2.5 py-1 text-xs text-foreground/85 transition hover:border-border-strong"
                         >
                           Descargar media
                         </a>
                       ) : (
-                        <span className="text-xs text-neutral-600">media pendiente</span>
+                        <span className="text-xs text-muted/70">media pendiente</span>
                       )}
                     </div>
                   </div>
                   {p.caption && (
-                    <p className="mt-2 whitespace-pre-wrap text-sm text-neutral-300">{p.caption}</p>
+                    <p className="mt-2 whitespace-pre-wrap text-sm text-foreground/85">{p.caption}</p>
                   )}
                 </li>
               ))}
@@ -134,7 +134,7 @@ export function PackageView({
       })}
 
       {platforms.length > 0 && (
-        <div className="border-t border-neutral-800 pt-6">
+        <div className="border-t border-border pt-6">
           <PublishButton batchId={batchId} status={status} />
         </div>
       )}

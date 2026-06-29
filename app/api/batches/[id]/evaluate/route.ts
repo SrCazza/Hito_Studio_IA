@@ -1,5 +1,5 @@
 /**
- * POST /api/batches/[id]/evaluate — corre el semáforo sobre las piezas de la
+ * POST /api/batches/[id]/evaluate - corre el semáforo sobre las piezas de la
  * tanda y persiste color + razones. El evaluador vive en servidor (BLUEPRINT §5):
  * los rojos automáticos son deterministas; el LLM solo asiste verde/amarillo.
  */

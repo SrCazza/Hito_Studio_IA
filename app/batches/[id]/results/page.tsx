@@ -55,46 +55,46 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-10">
-      <Link href={`/batches/${id}/package`} className="text-sm text-neutral-400 hover:text-neutral-200">
+      <Link href={`/batches/${id}/package`} className="text-sm text-muted hover:text-foreground">
         ← Paquete
       </Link>
 
       <header className="mb-6 mt-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Resultados — {batch.title}</h1>
-        <p className="mt-1 text-sm text-neutral-400">
+        <h1 className="font-display text-3xl tracking-tight">Resultados: {batch.title}</h1>
+        <p className="mt-1.5 text-sm text-muted">
           Registra las métricas que ves en cada plataforma y deja que el analista proponga ajustes.
         </p>
       </header>
 
       {/* Reporte del analista */}
-      <section className="mb-8 rounded-lg border border-neutral-800 bg-neutral-900/40 p-4">
+      <section className="mb-8 rounded-lg border border-border bg-surface/40 p-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-neutral-200">Reporte del analista</h2>
+          <h2 className="text-sm font-semibold text-foreground">Reporte del analista</h2>
           <AnalyzeButton batchId={batch.id} hasAnalysis={!!analysis} />
         </div>
         {!analysis ? (
-          <p className="text-sm text-neutral-500">
+          <p className="text-sm text-muted">
             Aún sin análisis. Carga métricas y pulsa «Analizar tanda».
           </p>
         ) : (
           <div className="flex flex-col gap-3 text-sm">
-            {analysis.summary && <p className="text-neutral-300">{analysis.summary}</p>}
+            {analysis.summary && <p className="text-foreground/85">{analysis.summary}</p>}
             {analysis.highlights && analysis.highlights.length > 0 && (
               <div>
-                <p className="text-xs uppercase tracking-wide text-neutral-500">Qué funcionó</p>
+                <p className="text-xs uppercase tracking-wide text-muted">Qué funcionó</p>
                 <ul className="mt-1 flex flex-col gap-1">
                   {analysis.highlights.map((h, i) => (
-                    <li key={i} className="text-neutral-300">• {h}</li>
+                    <li key={i} className="text-foreground/85">• {h}</li>
                   ))}
                 </ul>
               </div>
             )}
             {analysis.adjustments && analysis.adjustments.length > 0 && (
               <div>
-                <p className="text-xs uppercase tracking-wide text-neutral-500">Ajustes propuestos</p>
+                <p className="text-xs uppercase tracking-wide text-muted">Ajustes propuestos</p>
                 <ul className="mt-1 flex flex-col gap-1">
                   {analysis.adjustments.map((a, i) => (
-                    <li key={i} className="text-emerald-300">→ {a}</li>
+                    <li key={i} className="text-brand-400">→ {a}</li>
                   ))}
                 </ul>
               </div>
@@ -104,28 +104,28 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
       </section>
 
       {/* Métricas por pieza */}
-      <h2 className="mb-3 text-sm font-medium text-neutral-300">Métricas por pieza</h2>
+      <h2 className="mb-3 text-sm font-medium text-foreground/85">Métricas por pieza</h2>
       <ul className="flex flex-col gap-2">
         {assets.map((a) => {
           const current = byAsset.get(a.id) ?? {};
           const filled = METRIC_TYPES.filter((t) => current[t] != null);
           const caption = a.content?.final_copy || a.content?.copy || a.content?.concept || "";
           return (
-            <li key={a.id} className="rounded-lg border border-neutral-800 px-4 py-3">
+            <li key={a.id} className="rounded-lg border border-border px-4 py-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">
                   {MIX_LABELS[a.type as MixType] ?? a.type}
                   {a.platform_target && (
-                    <span className="ml-2 text-xs text-neutral-500">{a.platform_target}</span>
+                    <span className="ml-2 text-xs text-muted">{a.platform_target}</span>
                   )}
                 </span>
                 {filled.length > 0 && (
-                  <span className="text-xs text-neutral-500">
+                  <span className="text-xs text-muted">
                     {filled.map((t) => `${METRIC_LABELS[t]}: ${current[t]}`).join(" · ")}
                   </span>
                 )}
               </div>
-              {caption && <p className="mt-1 text-sm text-neutral-400">{caption}</p>}
+              {caption && <p className="mt-1 text-sm text-muted">{caption}</p>}
               <MetricsForm
                 batchId={batch.id}
                 assetId={a.id}
@@ -138,7 +138,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
       </ul>
 
       {assets.length === 0 && (
-        <p className="rounded-lg border border-dashed border-neutral-700 px-6 py-10 text-center text-neutral-400">
+        <p className="rounded-lg border border-dashed border-border-strong px-6 py-10 text-center text-muted">
           Esta tanda no tiene piezas.
         </p>
       )}

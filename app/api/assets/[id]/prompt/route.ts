@@ -1,5 +1,5 @@
 /**
- * POST /api/assets/[id]/prompt — actualiza el `image_prompt` de una pieza.
+ * POST /api/assets/[id]/prompt - actualiza el `image_prompt` de una pieza.
  * El prompt de imagen es uno de los grandes diferenciadores de calidad, así que
  * el usuario puede inspeccionarlo y editarlo ANTES de producir. Solo se permite
  * mientras la pieza no esté produciéndose ni lista.
