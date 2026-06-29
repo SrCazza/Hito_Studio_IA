@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Hito IA Studio",
     description:
-      "Studio de contenido agéntico con humano-en-el-loop. La IA produce; tú apruebas con el semáforo.",
+      "Studio de contenido agéntico con humano en el loop. La IA produce; tú apruebas con el semáforo.",
     type: "website",
   },
 };

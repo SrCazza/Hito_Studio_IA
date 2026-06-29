@@ -1,6 +1,6 @@
 # Studio de Contenido IA
 
-Studio de contenido agéntico con **humano-en-el-loop** para llevar redes sociales de varias marcas. La IA produce en volumen; el humano aprueba con un sistema **semáforo** (verde/amarillo/rojo) antes de publicar.
+Studio de contenido agéntico con **humano en el loop** para llevar redes sociales de varias marcas. La IA produce en volumen; el humano aprueba con un sistema **semáforo** (verde/amarillo/rojo) antes de publicar.
 
 > Contexto y guardrails: [`docs/CLAUDE.md`](docs/CLAUDE.md) · Especificación: [`docs/BLUEPRINT.md`](docs/BLUEPRINT.md) · Orden de construcción: [`docs/BUILD_PLAN.md`](docs/BUILD_PLAN.md)
 

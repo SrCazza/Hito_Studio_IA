@@ -2,7 +2,7 @@
  * POST /api/batches/[id]/publish - marca la tanda como `published`.
  *
  * La publicación es MANUAL: el humano sube el paquete a cada plataforma a mano
- * (principio del sistema - mano-en-el-loop). Esto solo registra que ya se hizo.
+ * (principio del sistema - mano en el loop). Esto solo registra que ya se hizo.
  * Solo se permite desde una tanda revisada (`review`/`ready`).
  */
 import { NextResponse, type NextRequest } from "next/server";

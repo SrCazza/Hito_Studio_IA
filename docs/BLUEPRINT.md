@@ -111,7 +111,7 @@ Por cada job:
 Programado (p. ej. diario). Trae métricas de las plataformas → `metrics`; dispara al **analista (Sonnet)** para resumir qué cambiar; el resumen retroalimenta el perfil/estrategia.
 
 ### 3.3 Publisher (más adelante)
-Tras aprobación humana, publica vía APIs sociales. **Humano-en-el-loop se mantiene** (decisión estratégica). Opcional Postiz/n8n cuando se quiera.
+Tras aprobación humana, publica vía APIs sociales. **Humano en el loop se mantiene** (decisión estratégica). Opcional Postiz/n8n cuando se quiera.
 
 ---
 

@@ -53,7 +53,7 @@ export function Hero() {
               <i className="h-1.5 w-1.5 rounded-full bg-amber" />
               <i className="h-1.5 w-1.5 rounded-full bg-red" />
             </span>
-            Humano-en-el-loop · tú apruebas con el semáforo
+            Humano en el loop · tú apruebas con el semáforo
           </span>
 
           <h1

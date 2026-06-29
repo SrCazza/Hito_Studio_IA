@@ -94,7 +94,7 @@
 **Aceptación:**
 - [ ] Desde una tanda aprobada y revisada, obtengo un paquete por plataforma listo para subir a mano.
 - [ ] El flujo completo corre de punta a punta con la marca seed, sin tocar prod por error.
-- [ ] 🎉 **MVP funcional:** una marca, espina completa, humano-en-el-loop.
+- [ ] 🎉 **MVP funcional:** una marca, espina completa, humano en el loop.
 
 ---
 

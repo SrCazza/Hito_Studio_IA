@@ -1,6 +1,6 @@
 /**
  * POST /api/batches/[id]/finalize - cierra la revisión: marca la tanda `ready`.
- * Solo si TODAS las piezas fueron aceptadas por el humano (mano-en-el-loop).
+ * Solo si TODAS las piezas fueron aceptadas por el humano (mano en el loop).
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";

@@ -7,7 +7,7 @@
 
 ## Qué es
 
-Un **studio de contenido agéntico con humano-en-el-loop** para llevar las redes sociales de varias marcas. El humano (Juan, diseñador) da la idea y dirige; la IA produce en volumen; el humano aprueba con un sistema **semáforo** (verde/amarillo/rojo) antes de publicar.
+Un **studio de contenido agéntico con humano en el loop** para llevar las redes sociales de varias marcas. El humano (Juan, diseñador) da la idea y dirige; la IA produce en volumen; el humano aprueba con un sistema **semáforo** (verde/amarillo/rojo) antes de publicar.
 
 Es una **herramienta web interna** (hoy para marcas propias: Hito33, Vetia clínicas, Vetia animales; mañana adaptable a clientes). **No** es e-commerce, no cobra dentro de la app, no es app nativa, no es plataforma de contenido de terceros.
 
