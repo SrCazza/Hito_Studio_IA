@@ -22,7 +22,7 @@ export function ExamplesGallery() {
         </h2>
         <p className="mt-4 text-muted">
           Posts, carruseles e infografías a partir de tu material y tu voz. Estos son ejemplos del
-          tipo de salida —tú eliges, ajustas y apruebas.
+          tipo de salida. Tú eliges, ajustas y apruebas.
         </p>
       </div>
 
@@ -65,7 +65,7 @@ export function ExamplesGallery() {
             </div>
             <Logo size={18} badge={false} className="absolute bottom-4 right-4 text-white/30" />
           </div>
-          <Tag sem="amber">Infografía · LinkedIn</Tag>
+          <Tag sem="amber">Infografía · Twitter/X</Tag>
         </article>
 
         {/* Carrusel */}

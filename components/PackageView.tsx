@@ -12,7 +12,7 @@ function CopyButton({ text, label = "Copiar" }: { text: string; label?: string }
       setDone(true);
       setTimeout(() => setDone(false), 1500);
     } catch {
-      /* clipboard puede fallar sin https/permiso — el texto sigue visible */
+      /* clipboard puede fallar sin https/permiso, el texto sigue visible */
     }
   }
   return (
@@ -90,7 +90,7 @@ export function PackageView({
         const allCaptions = platform.pieces
           .map((p) => p.caption)
           .filter(Boolean)
-          .join("\n\n———\n\n");
+          .join("\n\n---\n\n");
         return (
           <section key={platform.name} className="flex flex-col gap-3">
             <div className="flex items-center justify-between border-b border-neutral-800 pb-2">

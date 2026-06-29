@@ -1,4 +1,4 @@
-/** Iconos de línea (stroke 1.75), consistentes — nada de emoji. */
+/** Iconos de línea (stroke 1.75), consistentes, nada de emoji. */
 type P = { className?: string };
 const base = {
   width: 22,

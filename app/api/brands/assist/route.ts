@@ -51,7 +51,8 @@ export async function POST(request: NextRequest) {
       system:
         "Eres un estratega de marca. Ayudas a un diseñador a completar el perfil de su marca. " +
         "Responde SOLO con el texto sugerido para el campo pedido, en español, conciso (1-3 frases), " +
-        "sin comillas, sin encabezados, sin explicaciones. Honesto, sin claims inflados.",
+        "sin comillas, sin encabezados, sin explicaciones. Honesto, sin claims inflados. " +
+        "No uses el guion largo como separador; usa coma o punto.",
       prompt:
         `Marca: ${context.name || "(sin nombre)"}\n` +
         `Sector: ${context.sector || "(no indicado)"}\n` +

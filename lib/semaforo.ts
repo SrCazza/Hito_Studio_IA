@@ -92,7 +92,7 @@ export function autoRedReasons(
   // 3) Caras humanas generadas por IA: avatar siempre; tipos generativos si el
   //    concepto menciona personas y la política de IA no es 'permitida'.
   if (assetType === "avatar") {
-    reasons.push({ category: "caras_ia", detail: "Avatar: cara humana generada por IA — requiere revisión." });
+    reasons.push({ category: "caras_ia", detail: "Avatar: cara humana generada por IA, requiere revisión." });
   } else if (GENERATIVE_TYPES.includes(assetType) && aiVisibility !== "permitida") {
     const face = FACE_TERMS.find((t) => text.includes(t));
     if (face) {
@@ -106,7 +106,7 @@ export function autoRedReasons(
   // 4) Contenido sensible.
   const sensitive = SENSITIVE_TERMS.find((t) => text.includes(t));
   if (sensitive) {
-    reasons.push({ category: "sensible", detail: `Tema sensible: «${sensitive}» — requiere criterio humano.` });
+    reasons.push({ category: "sensible", detail: `Tema sensible: «${sensitive}», requiere criterio humano.` });
   }
 
   return reasons;
@@ -141,7 +141,8 @@ export async function evaluateSemaforo(args: {
       system:
         "Eres revisor de marca. Evalúas si una pieza de contenido encaja con la marca y suena honesta. " +
         "Devuelves color 'green' (pasa casi solo) o 'amber' (échale ojo) y una razón breve. " +
-        "Nunca devuelves 'red' (los rojos los decide el sistema, no tú).",
+        "Nunca devuelves 'red' (los rojos los decide el sistema, no tú). " +
+        "No uses el guion largo como separador; usa coma o punto.",
       prompt:
         `Marca: ${brand.name}\n` +
         `Tono: ${brand.tono || "(no indicado)"}\n` +

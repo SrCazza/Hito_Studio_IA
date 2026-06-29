@@ -19,7 +19,7 @@ export function HowItWorks() {
           Siete pasos, siempre claros.
         </h2>
         <p className="mt-4 text-muted">
-          Sabes en todo momento por qué paso va tu tanda. Nada se produce —ni se cobra— sin tu
+          Sabes en todo momento por qué paso va tu tanda. Nada se produce, ni se cobra, sin tu
           aprobación.
         </p>
       </div>

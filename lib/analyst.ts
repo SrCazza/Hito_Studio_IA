@@ -61,7 +61,8 @@ export async function analyzeBatch(
       "Eres analista de contenido de redes. Cruzas las métricas de una tanda con el perfil de la marca " +
       "y resumes qué funcionó y qué ajustar. Eres concreto y honesto: nada de generalidades. " +
       "`adjustments` deben ser cambios accionables al perfil (tono, qué SÍ / qué NO, público) o a la " +
-      "estrategia de la próxima tanda. Si faltan datos, dilo y propón qué medir. Responde en español.",
+      "estrategia de la próxima tanda. Si faltan datos, dilo y propón qué medir. Responde en español. " +
+      "No uses el guion largo como separador; usa coma, punto o dos puntos.",
     prompt:
       `${describeBrand(brand)}\n\n` +
       `Piezas de la tanda y su rendimiento:\n${describePieces(pieces)}\n\n` +

@@ -75,7 +75,12 @@ export async function generateAndPersistPlan(batchId: string): Promise<GenerateP
     batch_id: batchId,
     type: p.type,
     status: "pending" as const,
-    content: { concept: p.concept, copy: p.copy, rationale: p.rationale },
+    content: {
+      concept: p.concept,
+      copy: p.copy,
+      image_prompt: p.image_prompt,
+      rationale: p.rationale,
+    },
     platform_target: p.platform_target || null,
   }));
 

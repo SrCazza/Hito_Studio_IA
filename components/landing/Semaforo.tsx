@@ -45,7 +45,7 @@ export function Semaforo() {
                 Rojos automáticos, siempre
               </div>
               <p className="mt-2 text-sm text-muted">
-                Cuatro categorías se marcan en rojo por reglas en código —no a criterio del modelo—
+                Cuatro categorías se marcan en rojo por reglas en código, no a criterio del modelo,
                 pase lo que pase la IA:
               </p>
               <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">

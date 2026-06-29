@@ -1,16 +1,14 @@
 import Link from "next/link";
 import { IconArrow } from "@/components/landing/Icons";
 import { PanelMockup } from "@/components/landing/PanelMockup";
-import { ALL_PLATFORMS } from "@/components/landing/Platforms";
+import { PLATFORMS } from "@/lib/platforms";
 
 // Posiciones de los logos flotantes (estilo Buffer), solo desktop.
 const floats = [
-  "left-[6%] top-[18%]",
-  "left-[14%] top-[54%]",
-  "right-[8%] top-[16%]",
-  "right-[15%] top-[50%]",
-  "left-[26%] top-[8%]",
-  "right-[27%] top-[6%]",
+  "left-[7%] top-[20%]",
+  "left-[15%] top-[56%]",
+  "right-[9%] top-[18%]",
+  "right-[16%] top-[52%]",
 ];
 
 const stats = [
@@ -33,9 +31,9 @@ export function Hero() {
         }}
       />
       {/* logos de plataformas flotando */}
-      {ALL_PLATFORMS.map(({ name, Icon }, i) => (
+      {PLATFORMS.map(({ value, Icon }, i) => (
         <span
-          key={name}
+          key={value}
           className={`pointer-events-none absolute hidden text-muted/40 lg:block ${floats[i]}`}
         >
           <span

@@ -85,7 +85,7 @@
         "sendBody": true,
         "contentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ prompt: ($('Claim job').item.json.payload && $('Claim job').item.json.payload.content && $('Claim job').item.json.payload.content.concept) || 'imagen de marca', image_size: 'square_hd', num_images: 1 }) }}"
+        "jsonBody": "={{ JSON.stringify({ prompt: ($('Claim job').item.json.payload && $('Claim job').item.json.payload.content && ($('Claim job').item.json.payload.content.image_prompt || $('Claim job').item.json.payload.content.concept)) || 'brand image, editorial photography, high detail, sharp focus', image_size: 'square_hd', num_images: 1 }) }}"
       },
       "credentials": { "httpCustomAuth": { "id": "Gt32cr0yrxJzNdAB", "name": "AI Studio - fal.ai" } }
     },
@@ -138,7 +138,7 @@
         "sendBody": true,
         "contentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ status: 'ready', media_url: 'assets/' + $('Claim job').item.json.payload.brand_id + '/' + $('Claim job').item.json.asset_id + '.png', content: Object.assign({}, $('Claim job').item.json.payload.content, { final_copy: ((($('Generate copy').item.json.content && $('Generate copy').item.json.content[0] && $('Generate copy').item.json.content[0].text) || '')).trim() }), cost: 0.004 }) }}"
+        "jsonBody": "={{ JSON.stringify({ status: 'ready', media_url: 'assets/' + $('Claim job').item.json.payload.brand_id + '/' + $('Claim job').item.json.asset_id + '.png', content: Object.assign({}, $('Claim job').item.json.payload.content, { final_copy: ((($('Generate copy').item.json.content && $('Generate copy').item.json.content[0] && $('Generate copy').item.json.content[0].text) || '')).trim() }), prompt: { image_prompt: ($('Claim job').item.json.payload.content.image_prompt || $('Claim job').item.json.payload.content.concept || ''), engine: 'fal-ai/flux/schnell' }, cost: 0.004 }) }}"
       },
       "credentials": { "httpCustomAuth": { "id": "u1ugQkpkIE0TRWQL", "name": "AI Studio - Supabase (service_role)" } }
     },

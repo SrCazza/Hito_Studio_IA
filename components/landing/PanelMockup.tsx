@@ -6,9 +6,9 @@ import { Logo } from "@/components/brand/Logo";
  */
 const pieces = [
   { sem: "green", type: "Post", platform: "Instagram", copy: "Mismas manos. Más alcance." },
-  { sem: "amber", type: "Carrusel", platform: "LinkedIn", copy: "Tres ideas para tu marca este mes." },
-  { sem: "red", type: "Infografía", platform: "LinkedIn", copy: "Aumenta tus ventas 200% — revisar cifra." },
-  { sem: "green", type: "Post", platform: "Instagram", copy: "Honesto sobre el proceso, sin humo." },
+  { sem: "amber", type: "Carrusel", platform: "Facebook", copy: "Tres ideas para tu marca este mes." },
+  { sem: "red", type: "Infografía", platform: "Twitter/X", copy: "Aumenta tus ventas 200%, revisar cifra." },
+  { sem: "green", type: "Post", platform: "TikTok", copy: "Honesto sobre el proceso, sin humo." },
 ];
 const dot: Record<string, string> = {
   green: "bg-emerald-400",
@@ -53,7 +53,7 @@ export function PanelMockup() {
           <div className="min-w-0 flex-1 p-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[13px] font-semibold text-white">Revisión — Lanzamiento junio</p>
+                <p className="text-[13px] font-semibold text-white">Revisión: Lanzamiento junio</p>
                 <p className="text-[11px] text-white/40">2 verdes · 1 amarillo · 1 rojo</p>
               </div>
               <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] uppercase tracking-wide text-white/50">
