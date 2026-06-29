@@ -5,15 +5,59 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { PasswordInput } from "@/components/ui/PasswordInput";
+import { PLATFORMS } from "@/lib/platforms";
 
 type Mode = "signin" | "signup";
 
 export default function LoginPage() {
   return (
-    <div className="theme-light min-h-screen bg-background">
+    <div className="theme-light relative min-h-screen overflow-hidden bg-background">
+      <LoginBackground />
       <Suspense fallback={<main className="min-h-screen" />}>
         <LoginForm />
       </Suspense>
+    </div>
+  );
+}
+
+// Posiciones de los iconos de redes flotando de fondo.
+const BG_ICONS = [
+  "left-[8%] top-[14%]",
+  "left-[18%] top-[68%]",
+  "right-[10%] top-[20%]",
+  "right-[20%] top-[72%]",
+  "left-[40%] top-[10%]",
+  "right-[38%] bottom-[10%]",
+  "left-[12%] top-[40%]",
+  "right-[12%] top-[46%]",
+];
+
+function LoginBackground() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-60"
+        style={{
+          backgroundImage:
+            "linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px)",
+          backgroundSize: "44px 44px",
+          maskImage: "radial-gradient(80% 60% at 50% 40%, #000 30%, transparent 100%)",
+        }}
+      />
+      <div className="absolute inset-x-0 top-0 h-72 glow-brand" />
+      {BG_ICONS.map((pos, i) => {
+        const Icon = PLATFORMS[i % PLATFORMS.length]!.Icon;
+        return (
+          <span key={i} className={`absolute text-muted/25 ${pos}`}>
+            <span
+              className="animate-float flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-surface/70 shadow-sm"
+              style={{ ["--fd" as string]: `${i * 450}ms` }}
+            >
+              <Icon size={22} />
+            </span>
+          </span>
+        );
+      })}
     </div>
   );
 }
@@ -65,13 +109,12 @@ function LoginForm() {
   }
 
   return (
-    <main className="relative mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-7 px-6">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 glow-brand" />
-
+    <main className="relative z-10 mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-7 px-6">
       <Wordmark />
 
-      <div>
-        <h1 className="font-display text-3xl tracking-tight">
+      <div className="card flex flex-col gap-6 bg-surface/85 p-6 shadow-xl backdrop-blur-sm sm:p-7">
+        <div>
+          <h1 className="font-display text-3xl tracking-tight">
           {mode === "signin" ? "Iniciar sesión" : "Crear cuenta"}
         </h1>
         <p className="mt-1.5 text-sm text-muted">
@@ -127,6 +170,7 @@ function LoginForm() {
       >
         {mode === "signin" ? "¿No tienes cuenta? Crear una" : "¿Ya tienes cuenta? Inicia sesión"}
       </button>
+      </div>
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
-import { ValueProps } from "@/components/landing/ValueProps";
+import { StackedBlocks } from "@/components/landing/StackedBlocks";
 import { Semaforo } from "@/components/landing/Semaforo";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { FeedPreview } from "@/components/landing/FeedPreview";
@@ -15,7 +15,7 @@ export default function Home() {
       <main>
         <Hero />
         <Reveal>
-          <ValueProps />
+          <StackedBlocks />
         </Reveal>
         <Reveal>
           <Semaforo />
